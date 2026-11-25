@@ -5,228 +5,233 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Slovenia ERP Landscape — Module by Module</title>
 <style>
-  :root {
-    --paper:#F4F1EC; --card:#FFFFFF; --ink:#221C24; --soft:#564C54; --faint:#8A7E87;
-    --line:#E3DBD1; --plum:#6D4667; --plum-ink:#FFFFFF; --rust:#B45D33; --green:#3B7A64;
-    --amber:#A06F0C; --green-bg:#DEEBE4; --rust-bg:#F6E6DB; --amber-bg:#F3E9CE;
+  :root{
+    --bg:#FFFFFF; --panel:#FBFBFD; --ink:#15151E; --soft:#55556A; --faint:#8A8AA0;
+    --line:#ECECF3; --shadow:0 1px 2px rgba(20,20,40,.04),0 8px 24px rgba(20,20,40,.05);
+    --green:#15803D; --green-bg:#E7F6EC; --amber:#B45309; --amber-bg:#FBF0DD; --red:#BE123C; --red-bg:#FCE7EC;
+    --c1:#4F46E5; --c2:#0D9488; --c3:#7C3AED; --c4:#D97706; --c5:#0891B2; --c6:#E11D48;
+    --c7:#2563EB; --c8:#EA580C; --c9:#16A34A; --c10:#DB2777; --c11:#059669; --c12:#475569;
   }
-  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-    --paper:#16121A; --card:#221A28; --ink:#F0E8EF; --soft:#C3B5C2; --faint:#8C7E8B;
-    --line:#362B3D; --plum:#C79BC0; --plum-ink:#1A121E; --rust:#E08A5B; --green:#6FBF9F;
-    --amber:#DCB25A; --green-bg:#16271F; --rust-bg:#35211A; --amber-bg:#2B2413;
-  }}
-  :root[data-theme="dark"]{--paper:#16121A;--card:#221A28;--ink:#F0E8EF;--soft:#C3B5C2;--faint:#8C7E8B;--line:#362B3D;--plum:#C79BC0;--plum-ink:#1A121E;--rust:#E08A5B;--green:#6FBF9F;--amber:#DCB25A;--green-bg:#16271F;--rust-bg:#35211A;--amber-bg:#2B2413;}
   *{box-sizing:border-box;}
-  body{margin:0;background:var(--paper);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased;}
-  .wrap{max-width:64rem;margin:0 auto;padding:clamp(1.5rem,4vw,3.2rem) clamp(1rem,4vw,2rem) 4rem;}
-  .top{font-family:"SF Mono",ui-monospace,monospace;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--plum);margin-bottom:1rem;}
-  h1{font-family:"Hoefler Text","Iowan Old Style",Palatino,Georgia,serif;font-weight:600;font-size:clamp(1.9rem,5vw,2.9rem);line-height:1.05;letter-spacing:-.02em;margin:0 0 .8rem;text-wrap:balance;}
-  h1 em{font-style:italic;color:var(--plum);}
-  .lead{font-size:clamp(1rem,1.9vw,1.15rem);color:var(--soft);margin:0 0 1.6rem;max-width:58ch;}
-  .step{font-family:"SF Mono",ui-monospace,monospace;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--rust);margin:2.6rem 0 .6rem;}
-  h2{font-family:"Hoefler Text",Palatino,Georgia,serif;font-weight:600;font-size:clamp(1.3rem,3vw,1.6rem);margin:0 0 .8rem;line-height:1.15;text-wrap:balance;}
-  p{margin:0 0 .7rem;max-width:64ch;}
-  a{color:var(--plum);}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:66rem;margin:0 auto;padding:0 clamp(1rem,4vw,2rem) 4rem;}
+  h1,h2,h3{font-family:"Hoefler Text","Iowan Old Style",Palatino,Georgia,serif;font-weight:600;}
+  a{color:var(--c1);}
+  code{background:#F1F1F6;padding:.05rem .3rem;border-radius:4px;font-size:.85em;}
 
-  .tag{display:inline-block;font-family:"SF Mono",ui-monospace,monospace;font-size:.62rem;font-weight:700;letter-spacing:.06em;padding:.08rem .42rem;border-radius:5px;vertical-align:.08em;margin-left:.25rem;white-space:nowrap;}
+  .hero{margin:clamp(1rem,3vw,2rem) 0 2rem;border-radius:22px;padding:clamp(1.6rem,4vw,2.6rem);color:#fff;position:relative;overflow:hidden;
+    background:linear-gradient(120deg,#2563EB 0%,#7C3AED 45%,#0D9488 100%);box-shadow:var(--shadow);}
+  .hero::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 85% 20%,rgba(255,255,255,.18),transparent 45%);pointer-events:none;}
+  .hero .eyebrow{font-family:"SF Mono",ui-monospace,monospace;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;opacity:.85;margin-bottom:.9rem;display:flex;align-items:center;gap:.6rem;}
+  .flag{width:30px;height:20px;border-radius:3px;overflow:hidden;display:inline-block;box-shadow:0 0 0 1px rgba(255,255,255,.35);vertical-align:middle;flex:none;}
+  .hero h1{font-size:clamp(2rem,5.5vw,3.1rem);line-height:1.04;letter-spacing:-.02em;margin:0 0 .7rem;color:#fff;}
+  .hero h1 em{font-style:italic;color:#F6E8A8;}
+  .hero p{margin:0;max-width:60ch;font-size:clamp(1rem,1.8vw,1.15rem);opacity:.95;}
+
+  .step{font-family:"SF Mono",ui-monospace,monospace;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--c1);margin:2.8rem 0 .9rem;display:flex;align-items:center;gap:.5rem;}
+  .step::before{content:"";width:1.5rem;height:2px;background:var(--c1);border-radius:2px;}
+  h2{font-size:clamp(1.3rem,3vw,1.7rem);margin:0 0 1rem;line-height:1.15;}
+  p{margin:0 0 .7rem;max-width:66ch;}
+
+  .tag{display:inline-block;font-family:"SF Mono",ui-monospace,monospace;font-size:.6rem;font-weight:700;letter-spacing:.05em;padding:.09rem .4rem;border-radius:5px;vertical-align:.08em;margin-left:.2rem;white-space:nowrap;}
   .seen{background:var(--green-bg);color:var(--green);}
   .srch{background:var(--amber-bg);color:var(--amber);}
-  .unk{background:var(--rust-bg);color:var(--rust);}
+  .unk{background:var(--red-bg);color:var(--red);}
 
-  .fix{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--rust);border-radius:0 12px 12px 0;padding:1rem 1.2rem;}
-  .fix b{color:var(--rust);}
-  .fix ul{margin:.4rem 0 0;padding-left:1.1rem;}
-  .fix li{margin-bottom:.3rem;font-size:.93rem;}
+  .answers{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:1rem;}
+  .a{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:1.2rem 1.3rem;box-shadow:var(--shadow);position:relative;overflow:hidden;}
+  .a::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;}
+  .a.k1::before{background:var(--c2);} .a.k2::before{background:var(--c1);} .a.k3::before{background:var(--c9);}
+  .a .ic{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;margin-bottom:.7rem;}
+  .a.k1 .ic{background:var(--c2);} .a.k2 .ic{background:var(--c1);} .a.k3 .ic{background:var(--c9);}
+  .a .q{font-size:.72rem;color:var(--faint);text-transform:uppercase;letter-spacing:.07em;margin-bottom:.35rem;}
+  .a .big{font-family:"Hoefler Text",Georgia,serif;font-size:1.4rem;line-height:1.1;}
+  .a.k1 .big{color:var(--c2);} .a.k2 .big{color:var(--c1);} .a.k3 .big{color:var(--c9);}
+  .a .sub{font-size:.85rem;color:var(--soft);margin-top:.45rem;}
 
-  .answers{display:grid;grid-template-columns:repeat(auto-fit,minmax(16rem,1fr));gap:.8rem;}
-  .a{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:1.1rem 1.2rem;}
-  .a .q{font-size:.74rem;color:var(--faint);text-transform:uppercase;letter-spacing:.07em;margin-bottom:.4rem;}
-  .a .big{font-family:"Hoefler Text",Georgia,serif;font-size:1.45rem;line-height:1.1;color:var(--plum);}
-  .a .sub{font-size:.86rem;color:var(--soft);margin-top:.4rem;}
-
-  .mods{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,19rem),1fr));gap:.8rem;}
-  .m{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:1.05rem 1.15rem;display:flex;flex-direction:column;gap:.45rem;}
-  .m h3{margin:0;font-size:1.02rem;font-weight:700;}
-  .m .n{font-family:"Hoefler Text",Georgia,serif;font-size:1.25rem;color:var(--plum);line-height:1.15;font-variant-numeric:tabular-nums;}
+  .mods{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,20rem),1fr));gap:1rem;}
+  .m{background:#fff;border:1px solid var(--line);border-top:3px solid var(--mc,#ccc);border-radius:14px;padding:1.1rem 1.2rem;display:flex;flex-direction:column;gap:.5rem;box-shadow:var(--shadow);}
+  .m .head{display:flex;align-items:center;gap:.65rem;}
+  .m .ic{width:36px;height:36px;border-radius:10px;background:var(--mc);color:#fff;display:flex;align-items:center;justify-content:center;flex:none;}
+  .m h3{margin:0;font-size:1.05rem;}
+  .m .n{font-family:"Hoefler Text",Georgia,serif;font-size:1.3rem;color:var(--mc);line-height:1.15;font-variant-numeric:tabular-nums;}
   .m .basis{font-size:.78rem;color:var(--faint);}
   .m .row{font-size:.86rem;color:var(--soft);}
   .m .row b{color:var(--ink);font-weight:650;}
-  .m .lbl{font-family:"SF Mono",ui-monospace,monospace;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);display:block;margin-bottom:.1rem;}
-  .m .odoo{border-top:1px dashed var(--line);padding-top:.45rem;font-size:.84rem;color:var(--soft);}
+  .m .lbl{font-family:"SF Mono",ui-monospace,monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);display:block;margin-bottom:.08rem;}
+  .m .odoo{margin-top:auto;border-top:1px dashed var(--line);padding-top:.5rem;font-size:.84rem;color:var(--soft);}
+  .m .odoo b{color:var(--ink);}
   .m .src{font-size:.74rem;}
+  .m1{--mc:var(--c1);} .m2{--mc:var(--c2);} .m3{--mc:var(--c3);} .m4{--mc:var(--c4);}
+  .m5{--mc:var(--c5);} .m6{--mc:var(--c6);} .m7{--mc:var(--c7);} .m8{--mc:var(--c8);}
+  .m9{--mc:var(--c9);} .m10{--mc:var(--c10);} .m11{--mc:var(--c11);} .m12{--mc:var(--c12);}
 
-  .tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:13px;background:var(--card);}
-  table{border-collapse:collapse;width:100%;min-width:620px;font-size:.88rem;}
-  thead th{text-align:left;font-family:"SF Mono",ui-monospace,monospace;font-weight:500;font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);padding:.8rem .85rem;border-bottom:1px solid var(--line);white-space:nowrap;}
+  .tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:#fff;box-shadow:var(--shadow);}
+  table{border-collapse:collapse;width:100%;min-width:600px;font-size:.88rem;}
+  thead th{text-align:left;font-family:"SF Mono",ui-monospace,monospace;font-weight:600;font-size:.64rem;letter-spacing:.08em;text-transform:uppercase;color:#fff;background:var(--c12);padding:.75rem .85rem;white-space:nowrap;}
   tbody td,tbody th{padding:.7rem .85rem;border-bottom:1px solid var(--line);vertical-align:top;text-align:left;}
   tbody tr:last-child td,tbody tr:last-child th{border-bottom:0;}
   tbody th{font-weight:650;white-space:nowrap;}
+  tbody tr:nth-child(even){background:var(--panel);}
   .num{font-family:"SF Mono",ui-monospace,monospace;font-variant-numeric:tabular-nums;white-space:nowrap;}
-  tr.hl{background:var(--green-bg);}
-  tr.od{background:var(--amber-bg);}
+  tr.hl{background:var(--green-bg)!important;}
+  tr.od{background:#EEF2FF!important;}
 
-  .trigger{background:var(--plum);color:var(--plum-ink);border-radius:15px;padding:clamp(1.2rem,4vw,1.7rem);}
-  .trigger h2{margin:0 0 .5rem;}
-  .trigger p{opacity:.93;margin:0 0 .5rem;}
-  .trigger .tag{background:rgba(255,255,255,.18);color:inherit;}
+  .trigger{background:linear-gradient(120deg,#0D9488,#2563EB);color:#fff;border-radius:18px;padding:clamp(1.3rem,4vw,1.9rem);box-shadow:var(--shadow);}
+  .trigger h2{margin:0 0 .6rem;color:#fff;}
+  .trigger p{opacity:.96;margin:0 0 .55rem;max-width:none;}
+  .trigger .tag{background:rgba(255,255,255,.2);color:#fff;}
 
-  .reads{display:grid;gap:.6rem;margin:0;padding:0;list-style:none;}
-  .reads li{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:.85rem 1.05rem;font-size:.93rem;}
-  .reads b{color:var(--ink);}
+  .reads{display:grid;gap:.7rem;margin:0;padding:0;list-style:none;}
+  .reads li{background:#fff;border:1px solid var(--line);border-left:4px solid var(--rc,var(--c1));border-radius:12px;padding:.9rem 1.1rem;font-size:.93rem;color:var(--soft);box-shadow:var(--shadow);}
+  .reads li b{color:var(--ink);}
+  .reads li:nth-child(1){--rc:var(--c2);} .reads li:nth-child(2){--rc:var(--c1);} .reads li:nth-child(3){--rc:var(--c7);}
+  .reads li:nth-child(4){--rc:var(--c4);} .reads li:nth-child(5){--rc:var(--c6);}
 
-  .method{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1rem 1.2rem;font-size:.86rem;color:var(--soft);}
-  .method p{max-width:none;margin-bottom:.45rem;}
-  .foot{margin-top:2rem;padding-top:1.1rem;border-top:1px solid var(--line);font-size:.76rem;color:var(--faint);}
-  .foot .src{display:flex;flex-wrap:wrap;gap:.25rem .85rem;margin-top:.5rem;}
-  .foot a{color:var(--plum);}
+  .method{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:1.1rem 1.3rem;font-size:.86rem;color:var(--soft);}
+  .method p{max-width:none;margin-bottom:.5rem;}
+  .foot{margin-top:2rem;padding-top:1.2rem;border-top:1px solid var(--line);font-size:.78rem;color:var(--faint);}
+  .foot .src{display:flex;flex-wrap:wrap;gap:.3rem .8rem;margin-top:.5rem;}
+  .foot a{color:var(--soft);}
+  .backlink{display:inline-block;margin-top:1.4rem;font-size:.85rem;color:var(--c1);text-decoration:none;font-weight:600;}
 </style>
 </head>
 <body>
-
 <div class="wrap">
-  <div class="top">Market research · Slovenia · 25 Nov 2026 · measured data only</div>
-  <h1>Slovenia, <em>module by module</em>: who's in use and who leads</h1>
-  <p class="lead">12 Odoo modules. For each one: how many products are in use, the top players, and the leader by a measurable figure. Every number links to its source. Where no source exists, it says <span class="tag unk">UNKNOWN</span>. Nothing is estimated.</p>
 
-  <div class="fix">
-    <b>Corrections to the earlier version of this page:</b>
-    <ul>
-      <li>The biggest Slovenian accounting/ERP vendor is <b>Seyfor</b> (owner of SAOP and Minimax), not Datalab. PANTHEON is the best-selling single ERP product.</li>
-      <li>Odoo 19 core <b>does</b> include Slovenian accounting (chart of accounts, taxes, tax reports). Payroll, fiscal cash registers and the eSLOG format come from third-party modules.</li>
-      <li>Odoo has <b>two</b> Gold partners in Slovenia (Hermes and Editor), not one leader.</li>
-      <li>The "~6–8 competitors" estimate is removed and replaced by measured counts per module.</li>
-    </ul>
-  </div>
+  <header class="hero">
+    <div class="eyebrow">
+      <span class="flag" aria-label="Slovenia"><svg width="30" height="20" viewBox="0 0 30 20"><rect width="30" height="6.67" y="0" fill="#fff"/><rect width="30" height="6.67" y="6.67" fill="#0050A0"/><rect width="30" height="6.66" y="13.33" fill="#D50000"/></svg></span>
+      Market research · Slovenia · 25 Nov 2026 · measured data only
+    </div>
+    <h1>Slovenia, <em>module by module</em></h1>
+    <p>Who's really in use across 12 ERP modules, who leads, and where Odoo actually stands. Every number is sourced or marked UNKNOWN — nothing is estimated.</p>
+  </header>
 
   <div class="step">The headline</div>
   <div class="answers">
-    <div class="a"><div class="q">Biggest accounting/ERP vendor</div><div class="big">Seyfor (SAOP + Minimax)</div><div class="sub">€20.87M revenue in 2025, 160 employees. Also owns Vasco (€8.08M). <span class="tag seen">SEEN</span></div></div>
-    <div class="a"><div class="q">Best-selling ERP product</div><div class="big">PANTHEON (Datalab)</div><div class="sub">93,410 licences sold across 9 markets; 21 Slovenian partners. Datalab parent revenue €14.61M (2025). <span class="tag seen">SEEN</span></div></div>
-    <div class="a"><div class="q">Odoo in Slovenia</div><div class="big">6 partners · 177 references</div><div class="sub">2 Gold, 1 Silver, 3 Ready; 19 certified experts. The largest partner by revenue is Editor (€1.00M). <span class="tag seen">SEEN</span></div></div>
+    <div class="a k1"><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 10h8M8 14h5"/></svg></div><div class="q">Biggest accounting / ERP vendor</div><div class="big">Seyfor (SAOP + Minimax)</div><div class="sub">€20.87M revenue in 2025, 160 employees. Also owns Vasco (€8.08M). <span class="tag seen">SEEN</span></div></div>
+    <div class="a k2"><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg></div><div class="q">Best-selling ERP product</div><div class="big">PANTHEON (Datalab)</div><div class="sub">93,410 licences sold across 9 markets; 21 Slovenian partners. Datalab parent revenue €14.61M (2025). <span class="tag seen">SEEN</span></div></div>
+    <div class="a k3"><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg></div><div class="q">Odoo in Slovenia</div><div class="big">6 partners · 177 references</div><div class="sub">2 Gold, 1 Silver, 3 Ready; 19 certified experts. The largest partner by revenue is Editor (€1.00M). <span class="tag seen">SEEN</span></div></div>
   </div>
 
   <div class="step">Module by module</div>
   <h2>12 modules, measured</h2>
   <div class="mods">
 
-    <div class="m">
-      <h3>CRM</h3>
-      <div class="n">9 tools on 142 sites</div>
+    <div class="m m1">
+      <div class="head"><span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><h3>CRM</h3></div>
+      <div class="n">9 tools · 142 sites</div>
       <div class="basis">CRM tools detected on .si websites, Nov 2026 <span class="tag seen">SEEN</span></div>
-      <div class="row"><span class="lbl">Leader</span><b>Intercom</b>, 52.1% of those sites (a chat-led CRM)</div>
-      <div class="row"><span class="lbl">Next</span>Salesforce 26.1% (Service Cloud 14.1% + Sales 12.0%) · Freshworks 10.6% · Bitrix24 4.9% · Zoho 2.1%</div>
-      <div class="row"><span class="lbl">Local</span>Acronx (no adoption figure)</div>
+      <div class="row"><span class="lbl">Leader</span><b>Intercom</b> 52.1% of those sites (a chat-led CRM)</div>
+      <div class="row"><span class="lbl">Next</span>Salesforce 26.1% · Freshworks 10.6% · Bitrix24 4.9% · Zoho 2.1%</div>
       <div class="odoo"><b>Odoo:</b> not detected in the CRM scan.</div>
       <div class="src"><a href="https://www.aguko.com/cat/crm/si">aguko · CRM · SI</a></div>
     </div>
 
-    <div class="m">
-      <h3>Accounting &amp; Invoicing</h3>
-      <div class="n">Product count <span class="tag unk">UNKNOWN</span></div>
-      <div class="basis">No official register. 10 Slovenian products named in sources: PANTHEON, SAOP iCenter, Minimax, Vasco, Birokrat, PRO.4, e-računi, Metakocka, Čebelca BIZ, MojRačun.</div>
-      <div class="row"><span class="lbl">Leader (vendor revenue)</span><b>Seyfor</b> (SAOP + Minimax), €20.87M, 2025 <span class="tag seen">SEEN</span></div>
-      <div class="row"><span class="lbl">Next</span>Datalab €14.61M · Vasco €8.08M (owned by Seyfor) · Pro-Bit €4.40M · e-računi €2.48M</div>
-      <div class="row"><span class="lbl">User claims</span>Minimax: 30,000+ entrepreneurs and 1,000 accounting firms <span class="tag srch">SEARCH</span> · PANTHEON: 93,410 licences sold across 9 markets <span class="tag seen">SEEN</span></div>
-      <div class="odoo"><b>Odoo:</b> core <code>l10n_si</code> in v19 covers the chart of accounts, taxes, tax reports and UBL/CII e-invoicing, and is in Community <span class="tag seen">SEEN</span>. eSLOG 2.0 format: third-party module, $447 <span class="tag srch">SEARCH</span></div>
-      <div class="src"><a href="https://www.companywall.si/podjetje/seyfor-doo/MMEx5hBq">Seyfor (AJPES)</a> · <a href="https://raw.githubusercontent.com/odoo/odoo/19.0/addons/l10n_si/__manifest__.py">Odoo l10n_si</a></div>
+    <div class="m m2">
+      <div class="head"><span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 10h8M8 14h5"/></svg></span><h3>Accounting &amp; Invoicing</h3></div>
+      <div class="n">Count <span class="tag unk">UNKNOWN</span></div>
+      <div class="basis">No register. 10 SI products named: PANTHEON, SAOP, Minimax, Vasco, Birokrat, PRO.4, e-računi, Metakocka, Čebelca, MojRačun.</div>
+      <div class="row"><span class="lbl">Leader (revenue)</span><b>Seyfor</b> (SAOP + Minimax) €20.87M, 2025 <span class="tag seen">SEEN</span></div>
+      <div class="row"><span class="lbl">Next</span>Datalab €14.61M · Vasco €8.08M · Pro-Bit €4.40M · e-računi €2.48M</div>
+      <div class="odoo"><b>Odoo:</b> core <code>l10n_si</code> covers chart of accounts, taxes, tax reports, UBL/CII e-invoicing — Community <span class="tag seen">SEEN</span>. eSLOG 2.0: third-party, $447 <span class="tag srch">SEARCH</span></div>
+      <div class="src"><a href="https://www.companywall.si/podjetje/seyfor-doo/MMEx5hBq">Seyfor (AJPES)</a> · <a href="https://github.com/odoo/odoo/tree/19.0/addons/l10n_si">Odoo l10n_si</a></div>
     </div>
 
-    <div class="m">
-      <h3>Payroll &amp; HR</h3>
-      <div class="n">Product count <span class="tag unk">UNKNOWN</span></div>
-      <div class="basis">No register or comparison found. Payroll must be filed as REK-O forms through eDavki <span class="tag srch">SEARCH</span></div>
+    <div class="m m3">
+      <div class="head"><span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></span><h3>Payroll &amp; HR</h3></div>
+      <div class="n">Count <span class="tag unk">UNKNOWN</span></div>
+      <div class="basis">No register or comparison found. Payroll filed as REK-O forms through eDavki <span class="tag srch">SEARCH</span></div>
       <div class="row"><span class="lbl">Leader</span><span class="tag unk">UNKNOWN</span></div>
-      <div class="row"><span class="lbl">Shown to support REK-O</span>SAOP, Minimax <span class="tag srch">SEARCH</span></div>
-      <div class="odoo"><b>Odoo:</b> no payroll in core <code>l10n_si</code> <span class="tag seen">SEEN</span>. Third-party <code>l10n_si_rek_payroll</code> for v18/19 <span class="tag srch">SEARCH</span>. Enterprise Slovenian payroll: not checked.</div>
-      <div class="src"><a href="https://www.fu.gov.si/davki_in_druge_dajatve/podrocja/dohodnina/rek_obrazci/">FURS REK forms</a> · <a href="https://apps.odoo.com/apps/modules/18.0/l10n_si_rek_payroll">Odoo app</a></div>
+      <div class="row"><span class="lbl">Support REK-O</span>SAOP, Minimax <span class="tag srch">SEARCH</span></div>
+      <div class="odoo"><b>Odoo:</b> no payroll in core <code>l10n_si</code> <span class="tag seen">SEEN</span>. Third-party <code>l10n_si_rek_payroll</code> for v18/19 <span class="tag srch">SEARCH</span>.</div>
+      <div class="src"><a href="https://www.fu.gov.si/davki_in_druge_dajatve/podrocja/dohodnina/rek_obrazci/">FURS REK forms</a></div>
     </div>
 
-    <div class="m">
-      <h3>Sales &amp; Purchase</h3>
-      <div class="n">Product count <span class="tag unk">UNKNOWN</span></div>
+    <div class="m m4">
+      <div class="head"><span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></span><h3>Sales &amp; Purchase</h3></div>
+      <div class="n">Proxy: partners</div>
       <div class="basis">Bundled inside ERP suites. Measured proxy: number of partners in Slovenia.</div>
-      <div class="row"><span class="lbl">Leader (partners)</span><b>PANTHEON</b>, 21 partners <span class="tag seen">SEEN</span></div>
-      <div class="row"><span class="lbl">Next</span>Odoo 6 · SAP at least 5 named (no full count) · Microsoft Dynamics 2 in a third-party directory</div>
-      <div class="odoo"><b>Odoo:</b> 35 Wholesale/Retail references among the partners' top industry tags <span class="tag seen">SEEN</span></div>
+      <div class="row"><span class="lbl">Leader (partners)</span><b>PANTHEON</b> 21 partners <span class="tag seen">SEEN</span></div>
+      <div class="row"><span class="lbl">Next</span>Odoo 6 · SAP 5+ named · Microsoft Dynamics 2 (3rd-party dir)</div>
+      <div class="odoo"><b>Odoo:</b> 35 Wholesale/Retail references among partners' top tags <span class="tag seen">SEEN</span></div>
       <div class="src"><a href="https://www.datalab.si/partnerji/">Datalab partners</a> · <a href="https://www.odoo.com/partners/country/slovenia-192">Odoo partners SI</a></div>
     </div>
 
-    <div class="m">
-      <h3>Inventory / Warehouse</h3>
-      <div class="n">Product count <span class="tag unk">UNKNOWN</span></div>
+    <div class="m m5">
+      <div class="head"><span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.27 6.96L12 12l8.73-5.04M12 22V12"/></svg></span><h3>Inventory / Warehouse</h3></div>
+      <div class="n">Count <span class="tag unk">UNKNOWN</span></div>
       <div class="basis">No warehouse-software adoption data found for Slovenia.</div>
-      <div class="row"><span class="lbl">Players seen</span>PANTHEON (built-in warehouse) · SmartBit WMS (add-on for PANTHEON)</div>
+      <div class="row"><span class="lbl">Players</span>PANTHEON (built-in warehouse) · SmartBit WMS (PANTHEON add-on)</div>
       <div class="row"><span class="lbl">Leader</span><span class="tag unk">UNKNOWN</span></div>
       <div class="odoo"><b>Odoo:</b> warehouse-specific figure <span class="tag unk">UNKNOWN</span></div>
       <div class="src"><a href="https://www.datalab.eu/erp-for-wholesale/">PANTHEON wholesale</a></div>
     </div>
 
-    <div class="m">
-      <h3>Manufacturing / MRP / MES</h3>
-      <div class="n">Product count <span class="tag unk">UNKNOWN</span></div>
+    <div class="m m6">
+      <div class="head"><span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20V8l-6 4V8l-6 4V8L2 12z"/><path d="M6 20v-4M12 20v-4M18 20v-4"/></svg></span><h3>Manufacturing / MRP / MES</h3></div>
+      <div class="n">Count <span class="tag unk">UNKNOWN</span></div>
       <div class="basis">No adoption data found. Local players identified by name only.</div>
-      <div class="row"><span class="lbl">Local players</span>PANTHEON Manufacture · Business Solutions Power MES · In.SIST MES · SmartBit MES · Comtron TronOffice</div>
+      <div class="row"><span class="lbl">Local</span>PANTHEON Manufacture · Business Solutions Power MES · In.SIST · SmartBit · Comtron</div>
       <div class="row"><span class="lbl">Global</span>Siemens Opcenter · SAP · Microsoft Dynamics</div>
-      <div class="row"><span class="lbl">Leader</span><span class="tag unk">UNKNOWN</span></div>
-      <div class="odoo"><b>Odoo:</b> 36 Manufacturing/Maintenance references among the partners' top industry tags <span class="tag seen">SEEN</span></div>
+      <div class="odoo"><b>Odoo:</b> 36 Manufacturing/Maintenance references among partners' top tags <span class="tag seen">SEEN</span></div>
       <div class="src"><a href="https://www.datalab.si/blog/sodoben-erp-sistem-srce-ucinkovite-proizvodnje/">PANTHEON MF</a></div>
     </div>
 
-    <div class="m">
-      <h3>Website / CMS</h3>
+    <div class="m m7">
+      <div class="head"><span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 9h20M6 6.5h.01M9 6.5h.01"/></svg></span><h3>Website / CMS</h3></div>
       <div class="n">WordPress 75.1%</div>
       <div class="basis">Share of .si websites with a known CMS (W3Techs), Nov 2026 <span class="tag seen">SEEN</span></div>
-      <div class="row"><span class="lbl">Leader</span><b>WordPress</b>, 75.1%</div>
+      <div class="row"><span class="lbl">Leader</span><b>WordPress</b> 75.1%</div>
       <div class="row"><span class="lbl">Next</span>Joomla 3.4% · Shopify 3.1% (W3Techs lists only these three)</div>
       <div class="odoo"><b>Odoo:</b> 50 .si websites run on Odoo <span class="tag seen">SEEN</span></div>
-      <div class="src"><a href="https://w3techs.com/technologies/segmentation/tld-si-/content_management">W3Techs .si</a> · <a href="https://www.aguko.com/tech/odoo/si">aguko · Odoo · SI</a></div>
+      <div class="src"><a href="https://w3techs.com/technologies/segmentation/tld-si-/content_management">W3Techs .si</a> · <a href="https://www.aguko.com/tech/odoo/si">aguko · Odoo</a></div>
     </div>
 
-    <div class="m">
-      <h3>eCommerce</h3>
+    <div class="m m8">
+      <div class="head"><span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18M16 10a4 4 0 0 1-8 0"/></svg></span><h3>eCommerce</h3></div>
       <div class="n">14,401 – 17,605 stores</div>
-      <div class="basis">Active Slovenian online stores (two store databases, Nov 2026) <span class="tag seen">SEEN</span></div>
-      <div class="row"><span class="lbl">Leader</span><b>WooCommerce</b>, 7,256 stores (50.4%) · 9,493 (53.9%) in the second database</div>
-      <div class="row"><span class="lbl">Next</span>Shopify 2,528 (17.6%) · Custom-built 2,183 (15.2%) · OpenCart 586 · PrestaShop 453 · Magento 441</div>
-      <div class="row"><span class="lbl">Local</span>Metakocka (ERP that connects to webshops; no store count)</div>
+      <div class="basis">Active Slovenian online stores (two store databases), Nov 2026 <span class="tag seen">SEEN</span></div>
+      <div class="row"><span class="lbl">Leader</span><b>WooCommerce</b> 50.4% · 53.9% (second database)</div>
+      <div class="row"><span class="lbl">Next</span>Shopify 17.6% · Custom 15.2% · OpenCart · PrestaShop · Magento</div>
       <div class="odoo"><b>Odoo:</b> 71 stores (0.49%) <span class="tag seen">SEEN</span></div>
       <div class="src"><a href="https://shoprank.com/countries/slovenia">Shoprank</a> · <a href="https://myleadfox.com/directory/slovenia">MyLeadFox</a></div>
     </div>
 
-    <div class="m">
-      <h3>Email marketing &amp; automation</h3>
-      <div class="n">13 email + 52 automation tools</div>
+    <div class="m m9">
+      <div class="head"><span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 6l-10 7L2 6"/></svg></span><h3>Email marketing &amp; automation</h3></div>
+      <div class="n">13 email + 52 automation</div>
       <div class="basis">On 2,791 and 4,155 .si websites respectively, Nov 2026 <span class="tag seen">SEEN</span></div>
-      <div class="row"><span class="lbl">Leader</span><b>Mailchimp</b>, 78.2% (email) · 52.5% (automation; 65.8% including its WordPress plugin)</div>
+      <div class="row"><span class="lbl">Leader</span><b>Mailchimp</b> 78.2% (email) · 52.5% (automation)</div>
       <div class="row"><span class="lbl">Next</span>MailerLite 15.0% / 10.1% · OneSignal 5.3% · Klaviyo 3.0% · HubSpot 2.8%</div>
-      <div class="row"><span class="lbl">Local</span>none found</div>
       <div class="odoo"><b>Odoo:</b> not detected.</div>
       <div class="src"><a href="https://www.aguko.com/cat/email/si">aguko · email</a> · <a href="https://www.aguko.com/cat/marketing-automation/si">aguko · automation</a></div>
     </div>
 
-    <div class="m">
-      <h3>Helpdesk / Live chat</h3>
-      <div class="n">32 tools on 478 sites</div>
-      <div class="basis">Live-chat tools on .si websites, Nov 2026 <span class="tag seen">SEEN</span>. Helpdesk-only count <span class="tag unk">UNKNOWN</span></div>
-      <div class="row"><span class="lbl">Leader (live chat)</span><b>Tawk.to</b>, 22.8%</div>
-      <div class="row"><span class="lbl">Next</span>Zendesk Chat 15.7% · Intercom 15.5% · Smartsupp 10.9% · HubSpot Chat 4.8% · Tidio 4.6%</div>
+    <div class="m m10">
+      <div class="head"><span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></span><h3>Helpdesk / Live chat</h3></div>
+      <div class="n">32 tools · 478 sites</div>
+      <div class="basis">Live-chat tools on .si websites <span class="tag seen">SEEN</span>. Helpdesk-only count <span class="tag unk">UNKNOWN</span></div>
+      <div class="row"><span class="lbl">Leader</span><b>Tawk.to</b> 22.8%</div>
+      <div class="row"><span class="lbl">Next</span>Zendesk Chat 15.7% · Intercom 15.5% · Smartsupp 10.9% · Tidio 4.6%</div>
       <div class="odoo"><b>Odoo:</b> not detected.</div>
       <div class="src"><a href="https://www.aguko.com/cat/live-chat/si">aguko · live chat</a></div>
     </div>
 
-    <div class="m">
-      <h3>POS / Fiscal cash registers</h3>
+    <div class="m m11">
+      <div class="head"><span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M7 15h4"/></svg></span><h3>POS / Fiscal cash registers</h3></div>
       <div class="n">54,644 businesses</div>
-      <div class="basis">Taxpayers that confirmed invoices with FURS in 2022 (913.8M invoices) <span class="tag srch">SEARCH</span>. Product count <span class="tag unk">UNKNOWN</span>: FURS keeps no register of POS software <span class="tag seen">SEEN</span></div>
-      <div class="row"><span class="lbl">Named vendors</span>Birokrat · Vasco · Mediaorbis · Telekom Slovenije · FURS miniBlagajna (free)</div>
+      <div class="basis">Taxpayers that confirmed invoices with FURS in 2022 (913.8M invoices) <span class="tag srch">SEARCH</span>. Product count <span class="tag unk">UNKNOWN</span></div>
+      <div class="row"><span class="lbl">Vendors</span>Birokrat · Vasco · Mediaorbis · Telekom Slovenije · FURS miniBlagajna (free)</div>
       <div class="row"><span class="lbl">Leader</span><span class="tag unk">UNKNOWN</span></div>
       <div class="odoo"><b>Odoo:</b> third-party FURS fiscal module for v18/19 <span class="tag srch">SEARCH</span></div>
-      <div class="src"><a href="https://www.fu.gov.si/nadzor/podrocja/davcne_blagajne_in_vezane_knjige_racunov_vkr">FURS</a> · <a href="https://apps.odoo.com/apps/modules/19.0/l10n_si_davcne_blagajne">Odoo app</a></div>
+      <div class="src"><a href="https://www.fu.gov.si/nadzor/podrocja/davcne_blagajne_in_vezane_knjige_racunov_vkr">FURS</a></div>
     </div>
 
-    <div class="m">
-      <h3>Project management</h3>
-      <div class="n">Product count <span class="tag unk">UNKNOWN</span></div>
+    <div class="m m12">
+      <div class="head"><span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="18" rx="1"/><rect x="14" y="3" width="7" height="11" rx="1"/></svg></span><h3>Project management</h3></div>
+      <div class="n">Count <span class="tag unk">UNKNOWN</span></div>
       <div class="basis">No Slovenia-level usage data for this category.</div>
       <div class="row"><span class="lbl">Only figure</span>Jira: used by 51 Slovenian companies <span class="tag seen">SEEN</span></div>
       <div class="row"><span class="lbl">Leader</span><span class="tag unk">UNKNOWN</span></div>
@@ -241,76 +246,64 @@
   <p>Total revenue (<i>celotni prihodki</i>) from AJPES annual reports, via companywall.si. 2025 unless noted.</p>
   <div class="tablewrap">
     <table>
-      <thead><tr><th>Firm (product)</th><th>Type</th><th>Revenue</th><th>Employees</th><th>Tag</th></tr></thead>
+      <thead><tr><th>Firm (product)</th><th>Type</th><th>Revenue</th><th>Staff</th><th>Tag</th></tr></thead>
       <tbody>
         <tr class="hl"><th>Seyfor (SAOP, Minimax)</th><td>Accounting / ERP</td><td class="num">€20.87M</td><td class="num">160</td><td><span class="tag seen">SEEN</span></td></tr>
         <tr><th>BE-terna</th><td>Microsoft Dynamics partner</td><td class="num">€20.00M</td><td class="num">150</td><td><span class="tag seen">SEEN</span></td></tr>
-        <tr><th>Business Solutions</th><td>Microsoft Dynamics partner, Power MES</td><td class="num">€17.95M</td><td class="num">171</td><td><span class="tag srch">SEARCH</span></td></tr>
-        <tr><th>Datalab (PANTHEON)</th><td>Accounting / ERP</td><td class="num">€14.61M parent<br>€16.6M group FY24</td><td class="num">48 parent<br>226 group</td><td><span class="tag seen">SEEN</span></td></tr>
+        <tr><th>Business Solutions</th><td>MS Dynamics partner, Power MES</td><td class="num">€17.95M</td><td class="num">171</td><td><span class="tag srch">SEARCH</span></td></tr>
+        <tr><th>Datalab (PANTHEON)</th><td>Accounting / ERP</td><td class="num">€14.61M parent</td><td class="num">48 / 226 grp</td><td><span class="tag seen">SEEN</span></td></tr>
         <tr><th>Sapphir</th><td>SAP partner</td><td class="num">€14.31M</td><td class="num">86</td><td><span class="tag seen">SEEN</span></td></tr>
         <tr><th>Avtenta (Telekom Slovenije)</th><td>SAP partner</td><td class="num">€13.05M</td><td class="num">51</td><td><span class="tag seen">SEEN</span></td></tr>
         <tr><th>Vasco (owned by Seyfor)</th><td>Accounting / ERP</td><td class="num">€8.08M</td><td class="num">32</td><td><span class="tag seen">SEEN</span></td></tr>
-        <tr><th>Itelis</th><td>SAP Platinum partner</td><td class="num">€5.66M (2024)</td><td class="num">37</td><td><span class="tag seen">SEEN</span></td></tr>
         <tr><th>Pro-Bit (PRO.4)</th><td>Accounting / ERP</td><td class="num">€4.40M</td><td class="num">37</td><td><span class="tag seen">SEEN</span></td></tr>
         <tr><th>e-računi</th><td>Cloud invoicing</td><td class="num">€2.48M</td><td class="num">10</td><td><span class="tag seen">SEEN</span></td></tr>
         <tr><th>Metakocka</th><td>Cloud ERP</td><td class="num">€2.14M</td><td class="num">11</td><td><span class="tag seen">SEEN</span></td></tr>
         <tr class="od"><th>Editor (Odoo Gold)</th><td>Odoo partner</td><td class="num">€1.00M</td><td class="num">15</td><td><span class="tag seen">SEEN</span></td></tr>
         <tr><th>Birokrat</th><td>Accounting</td><td class="num">€0.96M</td><td class="num">7</td><td><span class="tag seen">SEEN</span></td></tr>
-        <tr><th>Čebelca BIZ (Refaktor)</th><td>Invoicing</td><td class="num">€0.30M</td><td class="num">2</td><td><span class="tag seen">SEEN</span></td></tr>
       </tbody>
     </table>
   </div>
-  <p style="margin-top:.6rem;font-size:.82rem;color:var(--faint);">Hermes d.o.o. (the other Odoo Gold partner) revenue: <span class="tag unk">UNKNOWN</span>. Datalab sources disagree on group revenue (€16.6M Bloomberg Adria vs €21.0M Simply Wall St for FY Jun 2024); the AJPES parent figure is shown.</p>
+  <p style="margin-top:.6rem;font-size:.82rem;color:var(--faint);">Hermes d.o.o. (the other Odoo Gold partner) revenue: <span class="tag unk">UNKNOWN</span>. Datalab group figures conflict across sources; the AJPES parent figure is shown.</p>
 
   <div class="step">The dated trigger</div>
   <div class="trigger">
     <h2>B2B e-invoicing becomes mandatory on 1 January 2028</h2>
-    <p>The ZIERDED act (adopted 23 Oct 2025) applies to every business in the Slovenian Business Register and to sole traders. From that date, paper and PDF invoices are no longer allowed between companies, and invoices may not be sent by email. They must go through e-invoice providers, own direct systems, Peppol, or the free miniBlagajna app. <span class="tag">SEEN gov.si</span></p>
-    <p>In 2022, about 60% of Slovenian firms with 10+ employees sent e-invoices (57% small, 74% medium, 86% large), so roughly 40% did not. <span class="tag">SEEN gov.si</span></p>
+    <p>The ZIERDED act (adopted 23 Oct 2025) applies to every business in the Slovenian Business Register and to sole traders. From that date, paper and PDF invoices are no longer allowed between companies, and invoices may not be sent by email — they go through e-invoice providers, Peppol, direct systems, or the free miniBlagajna app. <span class="tag">SEEN gov.si</span></p>
+    <p>In 2022, about 60% of Slovenian firms with 10+ employees sent e-invoices (57% small, 74% medium, 86% large) — so roughly 40% did not. <span class="tag">SEEN gov.si</span></p>
   </div>
 
   <div class="step">What the numbers say</div>
   <ul class="reads">
-    <li><b>Odoo is a small ecosystem in Slovenia.</b> It has 6 partners against PANTHEON's 21. The largest Odoo partner by revenue (Editor, €1.00M) is about 1/20th the size of Seyfor (€20.87M).</li>
-    <li><b>Two local groups control accounting.</b> Seyfor reports €20.87M + €8.08M across its two Slovenian companies (not consolidated). Datalab reports €14.61M. The largest ERP partners are the Microsoft Dynamics and SAP houses (€13–20M each).</li>
-    <li><b>Global SaaS runs the website-facing modules, not local vendors.</b> WooCommerce has 50% of stores, Mailchimp 78% of email-tool sites, WordPress 75% of CMS sites. No local vendor appeared in email, marketing or chat. Odoo's web footprint: 71 stores and 50 websites.</li>
-    <li><b>Odoo's localization gap is narrower than assumed, but real.</b> Core covers Slovenian accounting and taxes. Payroll (REK-O), fiscal cash registers and eSLOG depend on third-party modules, while SAOP and Minimax document REK-O payroll themselves.</li>
+    <li><b>Odoo is a small ecosystem in Slovenia.</b> 6 partners against PANTHEON's 21. The largest Odoo partner by revenue (Editor, €1.00M) is about 1/20th the size of Seyfor (€20.87M).</li>
+    <li><b>Two local groups control accounting.</b> Seyfor reports €20.87M + €8.08M across its two Slovenian companies; Datalab reports €14.61M. The largest ERP partners are the Microsoft Dynamics and SAP houses (€13–20M each).</li>
+    <li><b>Global SaaS runs the website-facing modules, not local vendors.</b> WooCommerce ~50% of stores, Mailchimp 78% of email-tool sites, WordPress 75% of CMS sites. Odoo's web footprint: 71 stores and 50 websites.</li>
+    <li><b>Odoo's localization gap is narrower than assumed, but real.</b> Core covers Slovenian accounting and taxes. Payroll (REK-O), fiscal cash registers and eSLOG depend on third-party modules.</li>
     <li><b>Odoo's existing Slovenian base clusters in two industries:</b> Manufacturing/Maintenance (36) and Wholesale/Retail (35), by the partners' published reference tags.</li>
   </ul>
 
   <div class="step">Method &amp; limits</div>
   <div class="method">
-    <p><span class="tag seen">SEEN</span> = the source page was opened and read (key claims re-checked on 25 Nov 2026). <span class="tag srch">SEARCH</span> = the figure appears in a search-result extract; the page itself was not opened. <span class="tag unk">UNKNOWN</span> = no source found. Nothing on this page is estimated.</p>
-    <p><b>Website-scan limits:</b> aguko and W3Techs scan only <code>.si</code> domains, so Slovenian firms on <code>.com</code>/<code>.eu</code> are missed. Website detection also cannot see back-office tools (accounting, payroll, manufacturing). wmtips and BuiltWith blocked automated reads.</p>
+    <p><span class="tag seen">SEEN</span> = source page opened and read (25 Nov 2026). <span class="tag srch">SEARCH</span> = figure from a search-result extract; page not opened. <span class="tag unk">UNKNOWN</span> = no source found. Nothing here is estimated.</p>
+    <p><b>Website-scan limits:</b> aguko and W3Techs scan only <code>.si</code> domains, so Slovenian firms on <code>.com</code>/<code>.eu</code> are missed, and they cannot see back-office tools (accounting, payroll, manufacturing).</p>
     <p><b>Revenue:</b> total revenue, not net sales. Group figures are not added across companies unless stated.</p>
-    <p><b>What would turn UNKNOWNs into numbers:</b> the UJP e-invoice provider list (PDF), the OpenPeppol access-point directory, the paid 6Wresearch Slovenia ERP report, and the Microsoft and SAP partner directories read directly.</p>
   </div>
 
   <div class="foot">
-    Market research for Botspot Infoware · 25 Nov 2026.
+    Market research for Botspot Infoware · 25 Nov 2026 · measured data only.
     <div class="src">
       <span>Sources:</span>
       <a href="https://www.gov.si/novice/2025-10-23-drzavni-zbor-sprejel-zakon-o-izmenjavi-elektronskih-racunov-in-drugih-elektronskih-dokumentov/">gov.si e-invoicing law</a>
-      <a href="https://ec.europa.eu/digital-building-blocks/sites/display/DIGITAL/eInvoicing+in+Slovenia">EC eInvoicing Slovenia</a>
       <a href="https://www.companywall.si/podjetje/seyfor-doo/MMEx5hBq">Seyfor</a>
       <a href="https://www.companywall.si/podjetje/datalab-dd/MM5IGEhR">Datalab</a>
-      <a href="https://si.bloombergadria.com/posel/poslovanje/68939/datalab-vec-dobicka-a-en-segment-je-razocaral/news">Datalab group (Bloomberg Adria)</a>
-      <a href="https://www.companywall.si/podjetje/be-terna-doo/MMlOXC">BE-terna</a>
-      <a href="https://www.companywall.si/podjetje/sapphir-doo/MMExASHR">Sapphir</a>
-      <a href="https://www.companywall.si/podjetje/avtenta-doo/MMHYpSD">Avtenta</a>
-      <a href="https://www.companywall.si/podjetje/vasco-doo/MMEhi82D">Vasco</a>
-      <a href="https://www.companywall.si/podjetje/editor-doo/MMnONYY">Editor</a>
       <a href="https://www.odoo.com/partners/country/slovenia-192">Odoo partners SI</a>
-      <a href="https://github.com/odoo/odoo/tree/19.0/addons/l10n_si">Odoo l10n_si (v19)</a>
-      <a href="https://www.datalab.si/partnerji/">Datalab partners</a>
-      <a href="https://shoprank.com/countries/slovenia">Shoprank</a>
+      <a href="https://github.com/odoo/odoo/tree/19.0/addons/l10n_si">Odoo l10n_si</a>
       <a href="https://w3techs.com/technologies/segmentation/tld-si-/content_management">W3Techs .si</a>
       <a href="https://www.aguko.com/cat/crm/si">aguko CRM</a>
-      <a href="https://topdynamicspartners.com/slovenia">Dynamics partners</a>
+      <a href="https://shoprank.com/countries/slovenia">Shoprank</a>
       <a href="https://www.fu.gov.si/nadzor/podrocja/davcne_blagajne_in_vezane_knjige_racunov_vkr">FURS fiscal</a>
     </div>
+    <a class="backlink" href="./">&larr; All research</a>
   </div>
 </div>
-
 </body>
 </html>

@@ -5,35 +5,43 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ERP Market Research — Botspot Infoware</title>
 <style>
-  :root{--paper:#F4F1EC;--card:#FFFFFF;--ink:#221C24;--soft:#564C54;--faint:#8A7E87;--line:#E3DBD1;--plum:#6D4667;}
-  @media (prefers-color-scheme:dark){:root{--paper:#16121A;--card:#221A28;--ink:#F0E8EF;--soft:#C3B5C2;--faint:#8C7E8B;--line:#362B3D;--plum:#C79BC0;}}
+  :root{--bg:#FFFFFF;--ink:#15151E;--soft:#55556A;--faint:#8A8AA0;--line:#ECECF3;
+    --shadow:0 1px 2px rgba(20,20,40,.04),0 10px 30px rgba(20,20,40,.06);--c1:#4F46E5;--c2:#0D9488;}
   *{box-sizing:border-box;}
-  body{margin:0;background:var(--paper);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased;}
-  .wrap{max-width:40rem;margin:0 auto;padding:clamp(2rem,6vw,4rem) clamp(1.1rem,4vw,2rem) 4rem;}
-  .top{font-family:"SF Mono",ui-monospace,monospace;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--plum);margin-bottom:1rem;}
-  h1{font-family:"Hoefler Text","Iowan Old Style",Palatino,Georgia,serif;font-weight:600;font-size:clamp(2rem,6vw,3rem);line-height:1.05;letter-spacing:-.02em;margin:0 0 .8rem;}
-  .lead{font-size:1.1rem;color:var(--soft);margin:0 0 2.4rem;max-width:34ch;}
-  .cards{display:grid;gap:1rem;}
-  a.card{display:block;text-decoration:none;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1.3rem 1.5rem;color:inherit;transition:transform .12s ease,border-color .12s ease;}
-  a.card:hover{transform:translateY(-2px);border-color:var(--plum);}
-  a.card .h{font-family:"Hoefler Text",Georgia,serif;font-size:1.4rem;color:var(--plum);margin-bottom:.25rem;}
-  a.card .s{font-size:.92rem;color:var(--soft);}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:46rem;margin:0 auto;padding:0 clamp(1rem,4vw,2rem) 4rem;}
+  h1,h2,h3{font-family:"Hoefler Text","Iowan Old Style",Palatino,Georgia,serif;font-weight:600;}
+  .hero{margin:clamp(1rem,4vw,2.5rem) 0 2rem;border-radius:22px;padding:clamp(1.8rem,5vw,3rem);color:#fff;position:relative;overflow:hidden;
+    background:linear-gradient(120deg,#4F46E5,#7C3AED 45%,#0D9488);box-shadow:var(--shadow);}
+  .hero::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 85% 15%,rgba(255,255,255,.2),transparent 45%);}
+  .hero .eyebrow{font-family:"SF Mono",ui-monospace,monospace;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;opacity:.85;margin-bottom:1rem;}
+  .hero h1{font-size:clamp(2rem,6vw,2.9rem);line-height:1.05;letter-spacing:-.02em;margin:0 0 .6rem;color:#fff;}
+  .hero p{margin:0;opacity:.95;max-width:40ch;}
+  .cards{display:grid;gap:1rem;margin-top:1.6rem;}
+  a.card{display:flex;align-items:center;gap:1rem;text-decoration:none;background:#fff;border:1px solid var(--line);border-left:5px solid var(--ac);border-radius:16px;padding:1.3rem 1.5rem;color:inherit;box-shadow:var(--shadow);transition:transform .12s ease;}
+  a.card:hover{transform:translateY(-2px);}
+  a.card .fl{width:44px;height:30px;border-radius:5px;overflow:hidden;flex:none;box-shadow:0 0 0 1px var(--line);}
+  a.card .h{font-family:"Hoefler Text",Georgia,serif;font-size:1.4rem;color:var(--ac);margin-bottom:.15rem;}
+  a.card .s{font-size:.9rem;color:var(--soft);}
+  .c-de{--ac:#4F46E5;} .c-si{--ac:#0D9488;}
   .foot{margin-top:2.5rem;padding-top:1.2rem;border-top:1px solid var(--line);font-size:.8rem;color:var(--faint);}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <div class="top">Botspot Infoware · Market Research</div>
-  <h1>ERP landscape, module by module</h1>
-  <p class="lead">Measured, source-linked research on where ERP and business software stand in each market — and Odoo's real position.</p>
+  <header class="hero">
+    <div class="eyebrow">Botspot Infoware · Market Research</div>
+    <h1>ERP landscape, module by module</h1>
+    <p>Measured, source-linked research on where ERP &amp; business software stand in each market — and Odoo's real position.</p>
+  </header>
   <div class="cards">
-    <a class="card" href="germany.html">
-      <div class="h">Germany &rarr;</div>
-      <div class="s">12 modules measured · DATEV, SAP, Lexware revenue table · e-invoicing + KassenSichV triggers · Odoo l10n_de depth.</div>
+    <a class="card c-de" href="germany.html">
+      <span class="fl"><svg width="44" height="30" viewBox="0 0 30 20"><rect width="30" height="6.67" y="0" fill="#000"/><rect width="30" height="6.67" y="6.67" fill="#DD0000"/><rect width="30" height="6.66" y="13.33" fill="#FFCE00"/></svg></span>
+      <span><span class="h">Germany &rarr;</span><span class="s">12 modules · DATEV, SAP, Lexware revenue table · e-invoicing + KassenSichV triggers · Odoo l10n_de depth.</span></span>
     </a>
-    <a class="card" href="slovenia.html">
-      <div class="h">Slovenia &rarr;</div>
-      <div class="s">12 modules measured · Seyfor, Datalab, PANTHEON · 2028 e-invoice mandate · Odoo l10n_si depth.</div>
+    <a class="card c-si" href="slovenia.html">
+      <span class="fl"><svg width="44" height="30" viewBox="0 0 30 20"><rect width="30" height="6.67" y="0" fill="#fff"/><rect width="30" height="6.67" y="6.67" fill="#0050A0"/><rect width="30" height="6.66" y="13.33" fill="#D50000"/></svg></span>
+      <span><span class="h">Slovenia &rarr;</span><span class="s">12 modules · Seyfor, Datalab, PANTHEON · 2028 e-invoice mandate · Odoo l10n_si depth.</span></span>
     </a>
   </div>
   <div class="foot">Measured data only — every figure is sourced or marked UNKNOWN; nothing is estimated. Nov 2026.</div>
