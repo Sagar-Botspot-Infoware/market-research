@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Germany ERP Landscape — Module by Module</title>
+<style>
+  :root {
+    --paper:#F4F1EC; --card:#FFFFFF; --ink:#221C24; --soft:#564C54; --faint:#8A7E87;
+    --line:#E3DBD1; --plum:#6D4667; --plum-ink:#FFFFFF; --rust:#B45D33; --green:#3B7A64;
+    --amber:#A06F0C; --green-bg:#DEEBE4; --rust-bg:#F6E6DB; --amber-bg:#F3E9CE;
+  }
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+    --paper:#16121A; --card:#221A28; --ink:#F0E8EF; --soft:#C3B5C2; --faint:#8C7E8B;
+    --line:#362B3D; --plum:#C79BC0; --plum-ink:#1A121E; --rust:#E08A5B; --green:#6FBF9F;
+    --amber:#DCB25A; --green-bg:#16271F; --rust-bg:#35211A; --amber-bg:#2B2413;
+  }}
+  :root[data-theme="dark"]{--paper:#16121A;--card:#221A28;--ink:#F0E8EF;--soft:#C3B5C2;--faint:#8C7E8B;--line:#362B3D;--plum:#C79BC0;--plum-ink:#1A121E;--rust:#E08A5B;--green:#6FBF9F;--amber:#DCB25A;--green-bg:#16271F;--rust-bg:#35211A;--amber-bg:#2B2413;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:64rem;margin:0 auto;padding:clamp(1.5rem,4vw,3.2rem) clamp(1rem,4vw,2rem) 4rem;}
+  .top{font-family:"SF Mono",ui-monospace,monospace;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--plum);margin-bottom:1rem;}
+  h1{font-family:"Hoefler Text","Iowan Old Style",Palatino,Georgia,serif;font-weight:600;font-size:clamp(1.9rem,5vw,2.9rem);line-height:1.05;letter-spacing:-.02em;margin:0 0 .8rem;text-wrap:balance;}
+  h1 em{font-style:italic;color:var(--plum);}
+  .lead{font-size:clamp(1rem,1.9vw,1.15rem);color:var(--soft);margin:0 0 1.6rem;max-width:60ch;}
+  .step{font-family:"SF Mono",ui-monospace,monospace;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--rust);margin:2.6rem 0 .6rem;}
+  h2{font-family:"Hoefler Text",Palatino,Georgia,serif;font-weight:600;font-size:clamp(1.3rem,3vw,1.6rem);margin:0 0 .8rem;line-height:1.15;text-wrap:balance;}
+  p{margin:0 0 .7rem;max-width:64ch;}
+  a{color:var(--plum);}
+
+  .tag{display:inline-block;font-family:"SF Mono",ui-monospace,monospace;font-size:.62rem;font-weight:700;letter-spacing:.06em;padding:.08rem .42rem;border-radius:5px;vertical-align:.08em;margin-left:.25rem;white-space:nowrap;}
+  .seen{background:var(--green-bg);color:var(--green);}
+  .srch{background:var(--amber-bg);color:var(--amber);}
+  .unk{background:var(--rust-bg);color:var(--rust);}
+
+  .answers{display:grid;grid-template-columns:repeat(auto-fit,minmax(16rem,1fr));gap:.8rem;}
+  .a{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:1.1rem 1.2rem;}
+  .a .q{font-size:.74rem;color:var(--faint);text-transform:uppercase;letter-spacing:.07em;margin-bottom:.4rem;}
+  .a .big{font-family:"Hoefler Text",Georgia,serif;font-size:1.45rem;line-height:1.1;color:var(--plum);}
+  .a .sub{font-size:.86rem;color:var(--soft);margin-top:.4rem;}
+
+  .mods{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,19rem),1fr));gap:.8rem;}
+  .m{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:1.05rem 1.15rem;display:flex;flex-direction:column;gap:.45rem;}
+  .m h3{margin:0;font-size:1.02rem;font-weight:700;}
+  .m .n{font-family:"Hoefler Text",Georgia,serif;font-size:1.25rem;color:var(--plum);line-height:1.15;font-variant-numeric:tabular-nums;}
+  .m .basis{font-size:.78rem;color:var(--faint);}
+  .m .row{font-size:.86rem;color:var(--soft);}
+  .m .row b{color:var(--ink);font-weight:650;}
+  .m .lbl{font-family:"SF Mono",ui-monospace,monospace;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);display:block;margin-bottom:.1rem;}
+  .m .odoo{border-top:1px dashed var(--line);padding-top:.45rem;font-size:.84rem;color:var(--soft);}
+  .m .odoo b{color:var(--ink);}
+  .m .src{font-size:.74rem;}
+
+  .tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:13px;background:var(--card);}
+  table{border-collapse:collapse;width:100%;min-width:640px;font-size:.88rem;}
+  thead th{text-align:left;font-family:"SF Mono",ui-monospace,monospace;font-weight:500;font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);padding:.8rem .85rem;border-bottom:1px solid var(--line);white-space:nowrap;}
+  tbody td,tbody th{padding:.7rem .85rem;border-bottom:1px solid var(--line);vertical-align:top;text-align:left;}
+  tbody tr:last-child td,tbody tr:last-child th{border-bottom:0;}
+  tbody th{font-weight:650;white-space:nowrap;}
+  .num{font-family:"SF Mono",ui-monospace,monospace;font-variant-numeric:tabular-nums;white-space:nowrap;}
+  tr.hl{background:var(--green-bg);}
+  tr.od{background:var(--amber-bg);}
+
+  .trigger{background:var(--plum);color:var(--plum-ink);border-radius:15px;padding:clamp(1.2rem,4vw,1.7rem);}
+  .trigger h2{margin:0 0 .5rem;}
+  .trigger p{opacity:.93;margin:0 0 .5rem;}
+  .trigger .tag{background:rgba(255,255,255,.18);color:inherit;}
+
+  .reads{display:grid;gap:.6rem;margin:0;padding:0;list-style:none;}
+  .reads li{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:.85rem 1.05rem;font-size:.93rem;}
+  .reads b{color:var(--ink);}
+
+  .method{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1rem 1.2rem;font-size:.86rem;color:var(--soft);}
+  .method p{max-width:none;margin-bottom:.45rem;}
+  .foot{margin-top:2rem;padding-top:1.1rem;border-top:1px solid var(--line);font-size:.76rem;color:var(--faint);}
+  .foot .src{display:flex;flex-wrap:wrap;gap:.25rem .85rem;margin-top:.5rem;}
+  .foot a{color:var(--plum);}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="top">Market research · Germany · 25 Nov 2026 · measured data only</div>
+  <h1>Germany, <em>module by module</em>: who's in use and who leads</h1>
+  <p class="lead">12 Odoo modules. For each: how many products are measurably in use, who leads, and Odoo's real position. Every number links to its source; where no source exists it says <span class="tag unk">UNKNOWN</span>. Nothing is estimated. Scope is the <b>end-customer market</b>, not the partner channel.</p>
+
+  <div class="step">The headline</div>
+  <div class="answers">
+    <div class="a"><div class="q">Biggest German accounting vendor</div><div class="big">DATEV</div><div class="sub">€1.514 bn revenue (2024), 9,051 staff — the tax-adviser accounting standard. SAP SE is larger (€34.18 bn group) but a global enterprise suite, not SME accounting. <span class="tag srch">SEARCH</span></div></div>
+    <div class="a"><div class="q">Most-used SME accounting</div><div class="big">DATEV + Lexware / sevDesk</div><div class="sub">DATEV runs most Steuerberater bookkeeping (1M+ customers, Jun 2026). Self-service: sevDesk "170,000+", Lexware Office "300,000+" — self-reported. <span class="tag srch">SEARCH</span></div></div>
+    <div class="a"><div class="q">Odoo in Germany</div><div class="big">108 partners · ~1,648 .de sites</div><div class="sub">12 Gold / 24 Silver / 72 Ready (odoo.com, live). Core covers German accounting + e-invoicing free; DATEV export is Enterprise; payroll is a gap. <span class="tag seen">SEEN</span></div></div>
+  </div>
+
+  <div class="step">Module by module</div>
+  <h2>12 modules, measured</h2>
+  <div class="mods">
+
+    <div class="m">
+      <h3>CRM</h3>
+      <div class="n">11,002 sites</div>
+      <div class="basis">CRM tools detected on .de websites, Nov 2026 <span class="tag seen">SEEN</span></div>
+      <div class="row"><span class="lbl">Leader</span><b>Intercom</b> 82.35% — but aguko counts a chat widget as CRM, so this is web-widget share, <i>not</i> real CRM seat share. Treat with caution.</div>
+      <div class="row"><span class="lbl">Next</span>Salesforce 4.82% · Pipedrive 3.24% · SF Service Cloud 3.02% · Bitrix24 2.18% · Zoho 1.94% · Freshworks 1.28%</div>
+      <div class="row"><span class="lbl">German</span>Superchat 0.16% · SAP 0.05%</div>
+      <div class="odoo"><b>Odoo:</b> not detected in the CRM scan.</div>
+      <div class="src"><a href="https://www.aguko.com/cat/crm/de">aguko · CRM · DE</a></div>
+    </div>
+
+    <div class="m">
+      <h3>Accounting &amp; Invoicing</h3>
+      <div class="n">Product count <span class="tag unk">UNKNOWN</span></div>
+      <div class="basis">No official register. German products named: DATEV, Lexware Office, sevDesk, SAP, Sage, Scopevisio, Addison, Agenda, Collmex, FastBill, easybill, Billbee.</div>
+      <div class="row"><span class="lbl">Leader (revenue)</span><b>DATEV</b> €1.514 bn, 2024 <span class="tag srch">SEARCH</span></div>
+      <div class="row"><span class="lbl">Next</span>Haufe/Lexware €562 m · sevDesk ~€17.8 m (2023)</div>
+      <div class="row"><span class="lbl">Adoption</span>DATEV 40,293 member firms, 1M+ customers <span class="tag srch">SEARCH</span> · sevDesk "170k" <span class="tag seen">SEEN</span> · Lexware Office "300k+" <span class="tag srch">SEARCH</span></div>
+      <div class="odoo"><b>Odoo:</b> core <code>l10n_de</code> ships SKR03 <i>and</i> SKR04 charts, taxes, GoBD audit-trail-on, and Factur-X/XRechnung e-invoicing — all Community <span class="tag seen">SEEN</span>. DATEV export + ELSTER = Enterprise only <span class="tag seen">SEEN</span></div>
+      <div class="src"><a href="https://github.com/odoo/odoo/tree/19.0/addons/l10n_de">Odoo l10n_de</a> · <a href="https://www.datev.de/web/de/presse/pressemeldungen/meldungen-2025/datev-ist-2024-auf-gesunder-basis-gewachsen/">DATEV 2024</a></div>
+    </div>
+
+    <div class="m">
+      <h3>Payroll &amp; HR</h3>
+      <div class="n">Product count <span class="tag unk">UNKNOWN</span></div>
+      <div class="basis">German payroll must file ELSTER/Lohnsteuer + Sozialversicherung — a hard localization barrier.</div>
+      <div class="row"><span class="lbl">Leader (reach)</span><b>DATEV</b> — ~14.5M monthly payslips run through DATEV payroll <span class="tag srch">SEARCH</span></div>
+      <div class="row"><span class="lbl">Next</span>Personio ~12,000 customers <span class="tag srch">SEARCH</span> · P&amp;I LOGA · ADP · ATOSS · Lexware · SAP</div>
+      <div class="odoo"><b>Odoo:</b> <b>no German payroll</b> in Community <i>or</i> Odoo's own Enterprise localizations <span class="tag seen">SEEN</span>. Only a paid third-party app (<code>l10n_de_lohn_payroll</code>, ~$399) <span class="tag srch">SEARCH</span>. Real gap.</div>
+      <div class="src"><a href="https://www.odoo.com/documentation/19.0/applications/hr/payroll/payroll_localizations.html">Odoo payroll localizations</a></div>
+    </div>
+
+    <div class="m">
+      <h3>Sales &amp; Purchase</h3>
+      <div class="n">Product count <span class="tag unk">UNKNOWN</span></div>
+      <div class="basis">Bundled inside ERP suites; no standalone adoption figure for Germany.</div>
+      <div class="row"><span class="lbl">Leader</span><span class="tag unk">UNKNOWN</span></div>
+      <div class="odoo"><b>Odoo:</b> Wholesale/Retail is one of the top-3 industries among Germany's 108 Odoo partners <span class="tag seen">SEEN</span></div>
+      <div class="src"><a href="https://www.odoo.com/partners/country/germany-56">Odoo partners DE</a></div>
+    </div>
+
+    <div class="m">
+      <h3>Inventory / Warehouse (WMS)</h3>
+      <div class="n">Product count <span class="tag unk">UNKNOWN</span></div>
+      <div class="basis">No measured WMS adoption figure found for Germany.</div>
+      <div class="row"><span class="lbl">Players</span>PSI (PSIwms) · proLogistik · Coglas · EPG/LFS · SAP EWM · Körber/Infios · Oracle · Manhattan · Blue Yonder</div>
+      <div class="row"><span class="lbl">Leader</span><span class="tag unk">UNKNOWN</span> (SAP EWM is 2026 Gartner MQ Leader <span class="tag srch">SEARCH</span>)</div>
+      <div class="odoo"><b>Odoo:</b> core Inventory app (barcode, multi-warehouse, routes); German WMS-specific figure <span class="tag unk">UNKNOWN</span></div>
+      <div class="src"><a href="https://www.psi.de/en/company/company-profile/business-units/logistics">PSI Logistics</a></div>
+    </div>
+
+    <div class="m">
+      <h3>Manufacturing / MRP / MES</h3>
+      <div class="n">Product count <span class="tag unk">UNKNOWN</span></div>
+      <div class="basis">Only conflicting vendor self-claims; no verified German market-share figure.</div>
+      <div class="row"><span class="lbl">Players</span>SAP (S/4HANA, Business One) · proALPHA · abas (Forterro) · Infor LN · MS Dynamics 365 BC · IFS</div>
+      <div class="row"><span class="lbl">Claims</span>proALPHA "17,500 worldwide" (3rd-party says 9,700) · abas ~4,000 — all <span class="tag srch">SEARCH</span>, conflicting</div>
+      <div class="row"><span class="lbl">Leader</span><span class="tag unk">UNKNOWN</span></div>
+      <div class="odoo"><b>Odoo:</b> core Manufacturing (MRP, BoM, shop-floor, PLM, quality); <b>Manufacturing is the #1 vertical</b> of Germany's Odoo partners <span class="tag seen">SEEN</span>. No German MES certification.</div>
+      <div class="src"><a href="https://www.proalpha.com/en/about-us/success-story">proALPHA</a> · <a href="https://www.odoo.com/partners/country/germany-56">Odoo partners DE</a></div>
+    </div>
+
+    <div class="m">
+      <h3>Website / CMS</h3>
+      <div class="n">WordPress 53.8%</div>
+      <div class="basis">Share of .de sites with a known CMS (W3Techs), Nov 2026 <span class="tag seen">SEEN</span></div>
+      <div class="row"><span class="lbl">Leader</span><b>WordPress</b> 53.8%</div>
+      <div class="row"><span class="lbl">Next</span>TYPO3 6.7% (German-origin, the #2) · Shopify 5.0%</div>
+      <div class="odoo"><b>Odoo:</b> 1,648 .de websites run on Odoo = 0.04% CMS share <span class="tag seen">SEEN</span></div>
+      <div class="src"><a href="https://w3techs.com/technologies/segmentation/tld-de-/content_management">W3Techs .de</a> · <a href="https://www.aguko.com/tech/odoo/de">aguko · Odoo · DE</a></div>
+    </div>
+
+    <div class="m">
+      <h3>eCommerce</h3>
+      <div class="n">332k – 417k stores</div>
+      <div class="basis">Three store databases, different bases — do not merge, Nov 2026 <span class="tag seen">SEEN</span></div>
+      <div class="row"><span class="lbl">Leader (by base)</span><b>WooCommerce</b> 54.5% (aguko) · <b>Shopify</b> 26.7% (shoprank) · <b>Custom</b> 36.5% (myleadfox)</div>
+      <div class="row"><span class="lbl">Next</span>Shopware · ePages · JTL · Gambio · OXID — all German</div>
+      <div class="odoo"><b>Odoo:</b> 1,159 .de stores (myleadfox); not surfaced by aguko or shoprank <span class="tag seen">SEEN</span></div>
+      <div class="src"><a href="https://shoprank.com/countries/germany">Shoprank</a> · <a href="https://myleadfox.com/directory/germany">MyLeadFox</a> · <a href="https://www.aguko.com/cat/ecommerce/de">aguko</a></div>
+    </div>
+
+    <div class="m">
+      <h3>Email marketing &amp; automation</h3>
+      <div class="n">36,993 email · 72,972 automation</div>
+      <div class="basis">On .de websites, Nov 2026 <span class="tag seen">SEEN</span></div>
+      <div class="row"><span class="lbl">Leader</span><b>MailChimp</b> 84.1% (email) · 42.6% (automation)</div>
+      <div class="row"><span class="lbl">Next</span>Sendinblue 5.7% · HubSpot 12.2% (automation) · Klaviyo 6.7% · OneSignal 4.4%</div>
+      <div class="row"><span class="lbl">German</span>Mapp 1.64% · Mautic 1.52% (open-source)</div>
+      <div class="odoo"><b>Odoo:</b> not detected.</div>
+      <div class="src"><a href="https://www.aguko.com/cat/email/de">aguko · email</a> · <a href="https://www.aguko.com/cat/marketing-automation/de">aguko · automation</a></div>
+    </div>
+
+    <div class="m">
+      <h3>Helpdesk / Live chat</h3>
+      <div class="n">19,051 live-chat sites</div>
+      <div class="basis">Live-chat tools on .de sites <span class="tag seen">SEEN</span>. Helpdesk-proper count <span class="tag unk">UNKNOWN</span> (no such scan category)</div>
+      <div class="row"><span class="lbl">Leader</span><b>Intercom</b> 47.56%</div>
+      <div class="row"><span class="lbl">Next</span>Tawk.to 7.96% · Smartsupp 6.85% · HubSpot Chat 6.09% · LiveZilla 2.81% · Zendesk 2.78% · Crisp 2.78%</div>
+      <div class="row"><span class="lbl">German</span>LiveZilla · Userlike · MoinAI · Superchat</div>
+      <div class="odoo"><b>Odoo:</b> not detected.</div>
+      <div class="src"><a href="https://www.aguko.com/cat/live-chat/de">aguko · live chat</a></div>
+    </div>
+
+    <div class="m">
+      <h3>POS / Fiscal cash registers</h3>
+      <div class="n">TSE mandatory on every e-till</div>
+      <div class="basis">§146a AO + KassenSichV §1 require a certified TSE since 1 Jan 2020; till reporting to the Finanzamt mandatory since 1 Jan 2025 <span class="tag seen">SEEN</span>. Count of TSE tills <span class="tag unk">UNKNOWN</span></div>
+      <div class="row"><span class="lbl">Vendors</span>Vectron · Gastronovi · orderbird · Lightspeed · SumUp · ready2order · Tillhub · TSE: fiskaly, Swissbit, Epson, D-Trust</div>
+      <div class="row"><span class="lbl">Leader</span><span class="tag unk">UNKNOWN</span></div>
+      <div class="odoo"><b>Odoo:</b> <b>certified path exists</b> — <code>l10n_de_pos_cert</code> (+ restaurant) via the fiskaly cloud TSE <span class="tag seen">SEEN</span></div>
+      <div class="src"><a href="https://www.gesetze-im-internet.de/ao_1977/__146a.html">§146a AO</a> · <a href="https://www.gesetze-im-internet.de/kassensichv/__1.html">KassenSichV</a> · <a href="https://www.odoo.com/documentation/17.0/applications/finance/fiscal_localizations/germany.html">Odoo DE docs</a></div>
+    </div>
+
+    <div class="m">
+      <h3>Project management</h3>
+      <div class="n">Product count <span class="tag unk">UNKNOWN</span></div>
+      <div class="basis">No website scan category for PM; internal tools are invisible to web crawlers.</div>
+      <div class="row"><span class="lbl">Only figure</span>Jira: ~5,221 German companies (TheirStack, undated snapshot) <span class="tag srch">SEARCH</span>; just 0.02% at the website layer</div>
+      <div class="row"><span class="lbl">Leader</span><span class="tag unk">UNKNOWN</span></div>
+      <div class="odoo"><b>Odoo:</b> not detected at the web layer (Project is a back-office app).</div>
+      <div class="src"><a href="https://theirstack.com/en/technology/jira/de">TheirStack · Jira · DE</a></div>
+    </div>
+
+  </div>
+
+  <div class="step">Vendor league table</div>
+  <h2>German business-software firms by revenue</h2>
+  <p>Most-to-least, German-relevant figure. North Data (the Bundesanzeiger proxy) hard-blocked automated reads and paywalls private-firm revenue, so several mid/small vendors are <span class="tag unk">UNKNOWN</span> rather than estimated. Big-vendor figures are from their own reports/press.</p>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>Firm (product)</th><th>Type</th><th>Revenue (year)</th><th>Staff</th><th>Tag</th></tr></thead>
+      <tbody>
+        <tr><th>SAP SE (S/4HANA)</th><td>ERP — global, not SME-accounting</td><td class="num">€34.18 bn group, FY24</td><td class="num">109,121</td><td><span class="tag srch">SEARCH</span></td></tr>
+        <tr class="hl"><th>DATEV eG</th><td>Accounting / tax / payroll co-op</td><td class="num">€1.514 bn, FY24</td><td class="num">9,051</td><td><span class="tag srch">SEARCH</span></td></tr>
+        <tr><th>Haufe Group (Lexware)</th><td>Accounting + HR</td><td class="num">€562 m, FY24/25</td><td class="num">~2,500</td><td><span class="tag srch">SEARCH</span></td></tr>
+        <tr><th>All for One Group</th><td>SAP service house (not a product)</td><td class="num">€511.4 m, FY23/24</td><td class="num">2,777</td><td><span class="tag srch">SEARCH</span></td></tr>
+        <tr><th>Sage GmbH (DE)</th><td>ERP / accounting</td><td class="num">€101.6 m, FY11/12 (stale)</td><td class="num">~630 now</td><td><span class="tag seen">OLD</span></td></tr>
+        <tr><th>sevDesk / sevenit</th><td>SME cloud accounting</td><td class="num">~€17.8 m, FY23</td><td class="num">UNKNOWN</td><td><span class="tag srch">SEARCH</span></td></tr>
+        <tr><th>Wolters Kluwer T&amp;A DE (ADDISON)</th><td>Tax / accounting</td><td class="num">entity UNKNOWN</td><td class="num">&gt;600</td><td><span class="tag unk">UNKNOWN</span></td></tr>
+        <tr><th>Diamant Software</th><td>Accounting / controlling</td><td class="num">UNKNOWN</td><td class="num">~150–320</td><td><span class="tag unk">UNKNOWN</span></td></tr>
+        <tr><th>Scopevisio AG</th><td>Cloud ERP</td><td class="num">UNKNOWN</td><td class="num">~85–135</td><td><span class="tag unk">UNKNOWN</span></td></tr>
+        <tr class="od"><th>Odoo (108 DE partners)</th><td>ERP — reference point</td><td class="num">n/a (vendor is Belgian)</td><td class="num">—</td><td><span class="tag seen">SEEN</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="margin-top:.6rem;font-size:.82rem;color:var(--faint);">SAP Germany revenue is not broken out from the group. Fiscal years differ (Haufe ends 30 Jun; All for One &amp; Sage 30 Sep). Sage's figure is from 2012 — the only entity number found. Customer counts elsewhere on this page are self-reported marketing unless tagged <span class="tag seen">SEEN</span>.</p>
+
+  <div class="step">The dated triggers</div>
+  <div class="trigger">
+    <h2>Two legal clocks already running</h2>
+    <p><b>B2B e-invoicing.</b> Every German business has had to <i>receive</i> structured e-invoices since 1 Jan 2025. From <b>1 Jan 2027</b> firms with &gt;€800k turnover must <i>issue</i> them (XRechnung / ZUGFeRD / Peppol); from <b>1 Jan 2028</b> nearly all businesses must. Confirmed against the EU Commission factsheet and statute §27 UStG. <span class="tag">SEEN</span></p>
+    <p><b>POS fiscal (KassenSichV).</b> Every electronic till needs a certified TSE (§146a AO) since 2020; electronic reporting to the Finanzamt is mandatory since 1 Jan 2025. <span class="tag">SEEN</span></p>
+    <p style="opacity:.85;margin:0;">Odoo Community already produces Factur-X/XRechnung, and a certified German POS path exists via fiskaly — so Odoo meets both mandates out of the box, except German payroll.</p>
+  </div>
+
+  <div class="step">What the numbers say</div>
+  <ul class="reads">
+    <li><b>Odoo is near-invisible at the website layer, and that's the wrong place to look.</b> ~1,648 .de sites, zero detections in CRM, email, automation or live chat. But these scanners only see public websites — installed back-office ERP is structurally invisible to them, so this is <i>not</i> evidence of low ERP adoption.</li>
+    <li><b>German accounting runs on DATEV, and DATEV is not really a rival — it's the rail.</b> Every SME's Steuerberater already works in DATEV. Odoo in Germany lives or dies by its <b>DATEV export</b> — which Odoo gates behind Enterprise. That single interface matters more than any feature list.</li>
+    <li><b>Odoo already fits the e-invoicing law for free.</b> Community ships SKR03/SKR04, a GoBD audit trail, and Factur-X/XRechnung — exactly what the 2027/2028 mandate needs. This is the strongest, cleanest wedge.</li>
+    <li><b>German payroll is a hard gap.</b> Absent from Community <i>and</i> Odoo's own Enterprise localizations; only a paid third-party app covers ELSTER/Lohnsteuer/SV. It's both an opening (unmet need) and a risk (you must solve it to be credible).</li>
+    <li><b>The back-office categories have no measured data.</b> WMS and Manufacturing/MES adoption are UNKNOWN in Germany — only conflicting vendor claims exist. Don't quote a market-share number for them; nobody can.</li>
+    <li><b>Where Odoo's German base actually sits:</b> Manufacturing, Wholesale/Retail and IT — the three verticals its 108 partners cluster in.</li>
+  </ul>
+
+  <div class="step">Method &amp; limits</div>
+  <div class="method">
+    <p><span class="tag seen">SEEN</span> = source page opened and read (25 Nov 2026). <span class="tag srch">SEARCH</span> = figure from a search-result snippet; page not opened. <span class="tag unk">UNKNOWN</span> = no source found. Nothing here is estimated.</p>
+    <p><b>Website-scan limits:</b> aguko and W3Techs scan only <code>.de</code> domains, so German firms on <code>.com</code>/<code>.eu</code> are missed, and they see <i>only</i> public-page tech — blind to ERP, payroll, WMS and other back-office tools. aguko "%" = share among sites where that category was detected, not share of all .de sites.</p>
+    <p><b>Revenue:</b> North Data blocked every automated read (HTTP 429) and paywalls private-firm revenue, so mid/small vendors are UNKNOWN. Big-vendor figures are self-reported group/entity numbers across different fiscal years; SAP Germany is not broken out.</p>
+    <p><b>Vendor customer counts</b> (DATEV, sevDesk, Lexware, Personio, proALPHA, abas) are self-reported marketing and often mix free/trial or group-wide totals — tagged SEARCH for that reason.</p>
+    <p><b>What would turn UNKNOWNs into numbers:</b> a paid North Data / Unternehmensregister pull per HRB, the Fraunhofer IML WMS market report, and the SAP/Microsoft partner directories read directly.</p>
+  </div>
+
+  <div class="foot">
+    Market research for Botspot Infoware · 25 Nov 2026.
+    <div class="src">
+      <span>Sources:</span>
+      <a href="https://www.datev.de/web/de/presse/pressemeldungen/meldungen-2025/datev-ist-2024-auf-gesunder-basis-gewachsen/">DATEV 2024</a>
+      <a href="https://www.sap.com/integrated-reports/2024/en.html">SAP 2024</a>
+      <a href="https://www.haufegroup.com/en/presse">Haufe Group</a>
+      <a href="https://github.com/odoo/odoo/tree/19.0/addons/l10n_de">Odoo l10n_de</a>
+      <a href="https://www.odoo.com/documentation/19.0/applications/hr/payroll/payroll_localizations.html">Odoo payroll localizations</a>
+      <a href="https://www.odoo.com/documentation/17.0/applications/finance/fiscal_localizations/germany.html">Odoo DE fiscal docs</a>
+      <a href="https://www.odoo.com/partners/country/germany-56">Odoo partners DE</a>
+      <a href="https://ec.europa.eu/digital-building-blocks/sites/spaces/DIGITAL/pages/467108886/eInvoicing+in+Germany">EC eInvoicing Germany</a>
+      <a href="https://www.gesetze-im-internet.de/ao_1977/__146a.html">§146a AO</a>
+      <a href="https://www.gesetze-im-internet.de/kassensichv/__1.html">KassenSichV</a>
+      <a href="https://w3techs.com/technologies/segmentation/tld-de-/content_management">W3Techs .de</a>
+      <a href="https://www.aguko.com/cat/crm/de">aguko CRM</a>
+      <a href="https://www.aguko.com/tech/odoo/de">aguko Odoo</a>
+      <a href="https://shoprank.com/countries/germany">Shoprank DE</a>
+      <a href="https://myleadfox.com/directory/germany">MyLeadFox DE</a>
+      <a href="https://www.proalpha.com/en/about-us/success-story">proALPHA</a>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
